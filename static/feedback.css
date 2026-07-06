@@ -1,0 +1,192 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* Modal overlay */
+.modal{
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgb(0, 0, 0);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+}
+
+/* Modal box - wider now for 2 columns */
+.modal-content{
+    background:#161b22;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 0 20px cyan;
+    width:750px;
+    max-width:92%;
+    max-height:85vh;
+    overflow-y:auto;
+    position:relative;
+    color:white;
+}
+
+.close-btn{
+    position:absolute;
+    top:10px; right:15px;
+    font-size:24px;
+    color:cyan;
+    cursor:pointer;
+}
+
+/* Two-column layout */
+.modal-columns{
+    display:flex;
+    gap:30px;
+    margin-top:10px;
+}
+
+.modal-left{
+    width:45%;
+    border:2px solid cyan;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 0 12px cyan;
+}
+
+.modal-right{
+    width:55%;
+}
+
+.modal-left h2,
+.modal-right h2{
+    color:cyan;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+/* Inputs */
+.modal-left input,
+.modal-left textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    background:#fafbfc;
+    border:1px solid cyan;
+    color:rgb(17, 17, 17);
+    border-radius:8px;
+    outline:none;
+    transition: all 0.3s ease;
+}
+
+.modal-left textarea{
+    resize:none;
+}
+
+/* Hover effect on inputs */
+.modal-left input:hover,
+.modal-left textarea:hover{
+    border-color:#ff00ff;
+    box-shadow:0 0 8px #ff00ff;
+}
+
+/* Focus effect (when typing) */
+.modal-left input:focus,
+.modal-left textarea:focus{
+    border-color:#00ffd5;
+    box-shadow:0 0 10px #00ffd5;
+}
+
+/* Submit button */
+.modal-left button[type="submit"]{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:cyan;
+    color:black;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.modal-left button[type="submit"]:hover{
+    background:#ff00ff;
+    color:white;
+    transform:scale(1.03);
+    box-shadow:0 0 12px #ff00ff;
+}
+
+/* Recent feedback list */
+#feedback-list{
+    max-height:400px;
+    overflow-y:auto;
+}
+
+.feedback-item{
+    border:1px solid cyan;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:15px;
+    background:#0d1117;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect on feedback cards */
+.feedback-item:hover{
+    border-color:#ff00ff;
+    box-shadow:0 0 10px #ff00ff;
+    transform:scale(1.02);
+}
+
+.feedback-item h3{
+    color:cyan;
+    margin-bottom:5px;
+    text-align:center;
+}
+
+.feedback-item p{
+    margin-top:10px;
+    color:#ddd;
+    line-height:1.5;
+    text-align:center;
+}
+
+.feedback-item small{
+    color:#aaa;
+    display:block;
+    text-align:center;
+}
+
+/* Mobile responsive - stack columns */
+@media (max-width: 600px){
+    .modal-columns{
+        flex-direction:column;
+    }
+    .modal-left, .modal-right{
+        width:100%;
+    }
+}
+
+
+
+
+
+
+
+
+
+#feedbackPopup {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    background: #00ff99;
+    color: #000;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #00ff99;
+    z-index: 99999;
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Detection Result</title>
+  <style>
+    body {
+      background-color: black;
+      color: #0ef;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .result-container {
+      background-color: rgba(255, 255, 255, 0.05); /* translucent effect */
+      padding: 40px;
+      width: 60%;
+      margin: 80px auto;
+      border: 2px solid #0ef;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #0ef;
+      text-align: center;
+    }
+
+    h1 {
+      color: #0ef;
+      margin-bottom: 30px;
+    }
+
+    .result-box {
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-weight: bold;
+      padding: 15px;
+      border-radius: 12px;
+      border: 2px solid #0ef;
+      box-shadow: 0 0 10px #0ef;
+    }
+
+    .fraud {
+      color: #ff4c4c;
+      background-color: rgba(255, 0, 0, 0.1);
+    }
+
+    .safe {
+      color: #4cff73;
+      background-color: rgba(0, 255, 100, 0.1);
+    }
+
+    .status {
+      font-size: 20px;
+      margin-top: 10px;
+    }
+
+    .live {
+      color: #4cff73;
+    }
+
+    .dead {
+      color: #ff4c4c;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 10px 25px;
+      background-color: transparent;
+      color: #0ef;
+      border: 2px solid #0ef;
+      border-radius: 50px;
+      font-size: 16px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #0ef;
+      color: black;
+      box-shadow: 0 0 10px #0ef, 0 0 20px #0ef;
+    }
+  </style>
+</head>
+<body>
+  <div class="result-container">
+    <h1>🔍 Detection Result</h1>
+
+    <div class="result-box {% if result == 'fraud' %}fraud{% else %}safe{% endif %}">
+      RESULT: {{ result | upper }}
+    </div>
+
+    <div class="status">
+      URL STATUS: 
+      {% if is_live %}
+        <span class="live">Live ✅</span>
+      {% else %}
+        <span class="dead">Dead ❌</span>
+      {% endif %}
+    </div>
+
+    <a href="/home" class="btn">← Back to Home</a>
+  </div>
+
+
+
+
+
+</body>
+</html>
