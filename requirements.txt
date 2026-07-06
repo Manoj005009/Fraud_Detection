@@ -7,3 +7,4 @@ joblib
 scikit-learn
 werkzeug
 gunicorn
+requests
