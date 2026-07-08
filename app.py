@@ -281,7 +281,8 @@ def api_login():
             "error": "Incorrect Password"
         }), 401
 
-    session["user"] = user[1]
+    session.permanent = True
+session["user"] = user[1]
 
     return jsonify({
         "success": True,
@@ -475,11 +476,9 @@ def reset_password():
 def check_session():
 
     if "user" not in session:
-        return "",401
+        return "", 401
 
-    response = make_response("",200)
-
-    return no_cache(response)
+    return "", 200
 
 
 @app.route("/detect", methods=["POST"])
