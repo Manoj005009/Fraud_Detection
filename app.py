@@ -25,7 +25,7 @@ from utils import is_url_live
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = 'your_secret_key_here'  #Secret Key
 
 # Session expires after 3 minutes
 app.permanent_session_lifetime = timedelta(minutes=3)
@@ -313,13 +313,12 @@ def reset_password():
     return jsonify({"success": True})
 
 
-@app.route("/check_session")
+@app.route('/check_session')
 def check_session():
-
-    if "user" not in session:
-        return "", 401
-
-    return "", 200
+    if 'username' not in session:
+        return '', 401
+    response = make_response('', 200)
+    return no_cache(response)
 
 
 @app.route("/detect", methods=["POST"])
