@@ -9,23 +9,29 @@
   <link rel="stylesheet" href="../static/Wrap.css">
   <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
   
-  <script>
-    setInterval(() => {
-      fetch("/check_session")
-        .then(res => {
-          if (res.status === 401) {
-            window.location.replace("/login");
-          }
-        });
-    }, 5000);
+<script>
+  let sessionExpired = false;
 
-    // 🔙 Back arrow handle
-    window.onpopstate = function () {
-      if (sessionExpired) {
-        window.location.replace("/login");
-      }
-    };
-  </script>
+  window.addEventListener("load", () => {
+  setTimeout(() => {
+    sessionExpired = true;
+    fetch("/check_session")
+      .then(res => {
+        if (res.status === 401) {
+          window.location.replace("/login");
+        }
+      });
+  }, 18000);
+});
+
+  // 🔙 Back arrow handle
+  window.onpopstate = function () {
+    if (sessionExpired) {
+      window.location.replace("/login");
+    }
+  };
+</script>
+
 
   <style>
     #popup {
