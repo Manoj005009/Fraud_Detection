@@ -17,7 +17,7 @@
         <input type="password" name="password" id="password" required>
         <label>Password</label>
       </div>
-      <a href="/index" id="loginBtn">
+      <a href="#" id="loginBtn">
         <span></span>
         <span></span>
         <span></span>
@@ -121,12 +121,15 @@
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
 
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({
+    email: username,
+    password: password
+}),
       });
 
       const data = await res.json();
