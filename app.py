@@ -112,6 +112,12 @@ def login():
     msg = request.args.get("msg")
 
     return render_template("login.html", msg=msg)
+    
+
+@app.route("/forgot")
+def forgot():
+    return render_template("forgot.html")
+
 
 
 @app.route("/home")
