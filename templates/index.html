@@ -1,19 +1,17 @@
 <html>
 <script>
-  let sessionExpired = false;
+setInterval(() => {
 
-  window.addEventListener("load", () => {
-  setTimeout(() => {
-    sessionExpired = true;
     fetch("/check_session")
-      .then(res => {
-        if (res.status === 401) {
-          window.location.replace("/login");
-        }
-      });
-  }, 180000);
-});
+        .then(res => {
 
+            if (res.status === 401) {
+                window.location.replace("/login");
+            }
+
+        });
+
+}, 5000);
   // 🔙 Back arrow handle
   window.onpopstate = function () {
     if (sessionExpired) {
