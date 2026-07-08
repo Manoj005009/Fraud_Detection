@@ -33,6 +33,10 @@ app = Flask(__name__)
 
 app.secret_key = os.getenv("SECRET_KEY")
 
+
+# Session expires after 3 minutes
+app.permanent_session_lifetime = timedelta(minutes=3)
+
 CORS(app)
 
 
