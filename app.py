@@ -59,9 +59,9 @@ def home():
     return no_cache(response)
 
 # ✅ Registration Page
-@app.route('/register', methods=['GET', 'POST'])
+@app.route('/register')
 def register():
-    if request.method == 'POST':
+    return render_template("Regi.html")
         name = request.form['username']   # form field name is 'username' but treat as name
         email = request.form['email']
         password = request.form['password']
@@ -78,9 +78,10 @@ def register():
     return render_template('Regi.html')
 
 # ✅ Login Page
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login')
 def login():
-    msg = request.args.get('msg')
+    msg = request.args.get("msg")
+    return render_template("login.html", msg=msg)
     if request.method == 'POST':
         email = request.form['username']   # your login form field, but now treat input as email
         password = request.form['password']
@@ -271,25 +272,51 @@ def get_feedbacks():
 @app.route('/api/register', methods=['POST'])
 def api_register():
     data = request.get_json()
-    user_name = data.get('user_name')
-    email = data.get('email')
-    password = data.get('password')
 
-    if not user_name or not email or not password:
-        return jsonify({'error': 'All fields required'}), 400
+    name = data.get("name")
+    email = data.get("email")
+    password = data.get("password")
 
-    hashed_password = generate_password_hash(password)
+    if not name or not email or not password:
+        return jsonify({"error": "All fields are required"}), 400
 
     conn = get_db_connection()
     cursor = conn.cursor()
+
     try:
-        cursor.execute("INSERT INTO users (name, email, password) VALUES (%s, %s, %s)",
-                       (user_name, email, hashed_password))
+        # Duplicate email check
+        cursor.execute("SELECT id FROM users WHERE email=%s", (email,))
+        existing = cursor.fetchone()
+
+        if existing:
+            return jsonify({"error": "Email already exists"}), 409
+
+        hashed_password = generate_password_hash(password)
+
+        cursor.execute(
+            """
+            INSERT INTO users(name,email,password)
+            VALUES(%s,%s,%s)
+            """,
+            (name, email, hashed_password)
+        )
+
         conn.commit()
-        return jsonify({'message': 'Registration successful!'}), 201
+
+        return jsonify({
+            "success": True,
+            "message": "Registration Successful"
+        }), 201
+
     except Exception as e:
         conn.rollback()
-        return jsonify({'error': str(e)}), 500
+        print(e)
+
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
     finally:
         cursor.close()
         conn.close()
@@ -304,22 +331,44 @@ def homemsg():
 # ✅ api login
 @app.route('/api/login', methods=['POST'])
 def api_login():
-    data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
 
-    if not username or not password:
-        return jsonify({'error': 'All fields required'}), 400
+    data = request.get_json()
+
+    email = data.get("email")
+    password = data.get("password")
+
+    if not email or not password:
+        return jsonify({"error":"All fields are required"}),400
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT password FROM users WHERE name=%s", (username,))
-    result = cursor.fetchone()
+
+    cursor.execute(
+        """
+        SELECT password
+        FROM users
+        WHERE email=%s
+        """,
+        (email,)
+    )
+
+    user = cursor.fetchone()
+
     cursor.close()
     conn.close()
 
-    if result and check_password_hash(result[0], password):
-        return jsonify({'message': 'Login successful'}), 200
+    if user is None:
+        return jsonify({"error":"Invalid Email"}),404
+
+    if not check_password_hash(user[0], password):
+        return jsonify({"error":"Incorrect Password"}),401
+
+    session["user"] = email
+
+    return jsonify({
+        "success":True,
+        "message":"Login Successful"
+    }),200
     elif result:
         return jsonify({'error': 'Incorrect password'}), 401
     else:
@@ -328,7 +377,7 @@ def api_login():
 # ✅ Session check
 @app.route('/check_session')
 def check_session():
-    if 'username' not in session:
+    if 'username' not in session:    
         return '', 401
     response = make_response('', 200)
     return no_cache(response)
