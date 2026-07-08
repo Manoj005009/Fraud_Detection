@@ -315,8 +315,10 @@ def reset_password():
 
 @app.route("/check_session")
 def check_session():
+
     if "user" not in session:
         return "", 401
+
     return "", 200
 
 
